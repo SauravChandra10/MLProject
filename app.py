@@ -7,7 +7,12 @@ app = Flask(__name__)
 
 @app.errorhandler(CustomException)
 def handle_my_error(error):
-    response = jsonify({'error': error})
+    res={
+        "status":False,
+        "message":"Error!",
+        "data":error
+    }
+    response = jsonify(res)
     return response
 
 @app.route('/')
@@ -22,7 +27,7 @@ def predict():
         prediction = PredictPipeline().predict(data)
         res={
             "status":True,
-            "message":"Prediction done successfully",
+            "message":"Prediction done successfully!",
             "data":prediction[0]
         }
         return jsonify(res)
