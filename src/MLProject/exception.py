@@ -1,4 +1,5 @@
 import sys
+from flask import jsonify
 # from src.mlproject.logger import logging
 
 def error_message_detail(error,error_detail:sys):

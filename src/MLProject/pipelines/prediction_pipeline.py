@@ -1,7 +1,7 @@
 import sys, os
 import io
 from io import StringIO
-import pandas as pd
+import pandas as pd, numpy as np
 from src.MLProject.exception import CustomException
 from src.MLProject.utils import load_object
 
@@ -34,11 +34,13 @@ class CustomData:
         df['Day'] = df['date'].dt.day
         df=df.drop(columns=['Date','date'],axis=1)
 
-        self.df=df
+        arr = np.array(df)
+
+        self.arr=arr
 
     def get_data_as_data_frame(self):
         try:
-            return self.df
+            return self.arr
 
         except Exception as e:
             raise CustomException(e, sys)
