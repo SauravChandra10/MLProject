@@ -1,15 +1,10 @@
 import os, sys
 from src.MLProject.logger import logging
 from src.MLProject.exception import CustomException
-
 from sklearn.ensemble import RandomForestRegressor
-
-import numpy as np, pandas as pd
-
+import numpy as np
 from src.MLProject.utils import save_object, evaluate_models
-
 from dataclasses import dataclass
-
 from sklearn.metrics import mean_squared_error
 
 @dataclass
