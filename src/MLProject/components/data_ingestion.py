@@ -3,7 +3,8 @@ import sys
 import pandas as pd
 from src.MLProject.exception import CustomException
 from src.MLProject.logger import logging
-# from src.MLProject.utils import read_sql_data
+from src.MLProject.components.data_transformation import DataTransformation
+from src.MLProject.components.model_trainer import ModelTrainer
 from dataclasses import dataclass
 from sklearn.model_selection import train_test_split
 
@@ -43,3 +44,13 @@ class DataIngestion:
 
         except Exception as e:
             raise CustomException(e,sys)
+        
+if __name__=='__main__':
+    obj=DataIngestion()
+    train_data,test_data=obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    train_arr,test_arr = data_transformation.initiate_data_transormation(train_data,test_data)
+
+    modeltrainer = ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
