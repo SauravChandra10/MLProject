@@ -9,7 +9,9 @@ import pandas as pd
 import io
 from io import StringIO
 
-app = Flask(__name__)
+application = Flask(__name__)
+
+app = application
 
 @app.errorhandler(CustomException)
 def handle_my_error(error):
@@ -70,4 +72,4 @@ def predict():
         return handle_my_error(error)
 
 if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0',port=5000)
+    app.run(host='0.0.0.0',port=5000)
