@@ -44,3 +44,17 @@ class CustomData:
 
         except Exception as e:
             raise CustomException(e, sys)
+        
+class CustomDataJSON:
+    def __init__(self,df):
+
+        arr = np.array(df)
+
+        self.arr=arr
+
+    def get_data_as_data_frame(self):
+        try:
+            return self.arr
+
+        except Exception as e:
+            raise CustomException(e, sys)
