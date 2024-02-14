@@ -8,10 +8,13 @@ from src.MLProject.components.model_trainer import ModelTrainer
 import pandas as pd
 import io
 from io import StringIO
+from werkzeug.exceptions import RequestEntityTooLarge
 
 application = Flask(__name__)
 
 app = application
+
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 # 1 MB
 
 @app.errorhandler(CustomException)
 def handle_my_error(error):
@@ -28,7 +31,7 @@ def index():
     return render_template("index.html")
 
 @app.route('/trainJSON',methods=["POST"])
-def train():
+def trainJSON():
     try:
         data = request.json
 
@@ -104,7 +107,9 @@ def train():
             "data":"model created at artifacts/model.pkl"
         }
         return jsonify(res)
-
+    
+    except RequestEntityTooLarge as e:
+        return jsonify({'error': 'File size exceeds 1 MB'}), 413
     except Exception as e:
         error = CustomException(e,sys).error_message
         return handle_my_error(error)
@@ -112,7 +117,10 @@ def train():
 @app.route('/predict', methods=["POST"])
 def predict():
     try:
-        f = request.files['test_file']
+        f = f = request.files['test_file']
+        if f.content_length > 'MAX_CONTENT_LENGTH':  # 1 MB in bytes
+            raise RequestEntityTooLarge("File size exceeds 1 MB")
+    
         data = CustomData(f).arr
         prediction = PredictPipeline().predict(data)
         res={
@@ -121,6 +129,8 @@ def predict():
             "data":prediction[0]
         }
         return jsonify(res)
+    except RequestEntityTooLarge as e:
+        return jsonify({'error': 'File size exceeds 1 MB'}), 413
     except Exception as e:
         error = CustomException(e,sys).error_message
         return handle_my_error(error)
