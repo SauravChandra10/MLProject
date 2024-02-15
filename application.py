@@ -2,19 +2,21 @@ from flask import Flask, request, render_template, jsonify
 import sys
 from src.MLProject.exception import CustomException
 from src.MLProject.pipelines.prediction_pipeline import PredictPipeline, CustomData, CustomDataJSON
-from src.MLProject.components.data_ingestion import DataIngestionConfig, DataIngestion
+from src.MLProject.components.data_ingestion import DataIngestion
 from src.MLProject.components.data_transformation import DataTransformation
 from src.MLProject.components.model_trainer import ModelTrainer
 import pandas as pd
 import io
 from io import StringIO
 from werkzeug.exceptions import RequestEntityTooLarge
+from middleware import auth, guest
 
 application = Flask(__name__)
 
 app = application
 
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 # 1 MB
+
 
 @app.errorhandler(CustomException)
 def handle_my_error(error):
@@ -27,6 +29,7 @@ def handle_my_error(error):
     return response
 
 @app.route('/')
+@auth
 def index():
     return render_template("index.html")
 
@@ -85,6 +88,7 @@ def predictJSON():
         return handle_my_error(error)
 
 @app.route('/train',methods=["POST"])
+@auth
 def train():
     try:
         f=request.files['train_file']
@@ -117,10 +121,7 @@ def train():
 @app.route('/predict', methods=["POST"])
 def predict():
     try:
-        f = f = request.files['test_file']
-        if f.content_length > 'MAX_CONTENT_LENGTH':  # 1 MB in bytes
-            raise RequestEntityTooLarge("File size exceeds 1 MB")
-    
+        f = request.files['test_file']  
         data = CustomData(f).arr
         prediction = PredictPipeline().predict(data)
         res={
