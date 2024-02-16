@@ -72,15 +72,3 @@ def auth(view_func):
             return res, 500
         
     return decorated
-
-# middleware -> guest
-def guest(view_func):
-    @functools.wraps(view_func)
-    def decorated(*args, **kwargs):
-        # code to check if user is authorised or not
-
-        if 'email' in session:
-            return redirect('/index')
-        
-        return view_func(*args, **kwargs)
-    return decorated

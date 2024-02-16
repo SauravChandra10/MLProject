@@ -9,7 +9,7 @@ import pandas as pd
 import io
 from io import StringIO
 from werkzeug.exceptions import RequestEntityTooLarge
-from middleware import auth, guest
+from middleware import auth
 
 application = Flask(__name__)
 
@@ -113,7 +113,12 @@ def train():
         return jsonify(res)
     
     except RequestEntityTooLarge as e:
-        return jsonify({'error': 'File size exceeds 1 MB'}), 413
+        res = {
+            "status": False,
+            "message": "Error!",
+            "data": 'File size exceeds 1 MB'
+        }
+        return res, 413
     except Exception as e:
         error = CustomException(e,sys).error_message
         return handle_my_error(error)
@@ -131,7 +136,12 @@ def predict():
         }
         return jsonify(res)
     except RequestEntityTooLarge as e:
-        return jsonify({'error': 'File size exceeds 1 MB'}), 413
+        res = {
+            "status": False,
+            "message": "Error!",
+            "data": 'File size exceeds 1 MB'
+        }
+        return res, 413
     except Exception as e:
         error = CustomException(e,sys).error_message
         return handle_my_error(error)
