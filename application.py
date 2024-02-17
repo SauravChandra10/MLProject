@@ -92,6 +92,24 @@ def predictJSON():
 def train():
     try:
         f=request.files['train_file']
+
+        if not f:
+            res={
+                "status":False,
+                "message":"Error!",
+                "data":"No file uploaded"
+            }
+            return res, 400  
+        
+        filename = f.filename
+        if not filename.endswith('.csv'):
+            res={
+                "status":False,
+                "message":"Error!",
+                "data":"Only CSV files allowed"
+            }
+            return res, 400
+        
         stream = io.StringIO(f.stream.read().decode("UTF8"), newline=None)
         stream.seek(0)
         result = stream.read()
@@ -126,7 +144,25 @@ def train():
 @app.route('/predict', methods=["POST"])
 def predict():
     try:
-        f = request.files['test_file']  
+        f = request.files['test_file']
+
+        if not f:
+            res={
+                "status":False,
+                "message":"Error!",
+                "data":"No file uploaded"
+            }
+            return res, 400  
+
+        filename = f.filename
+        if not filename.endswith('.csv'):
+            res={
+                "status":False,
+                "message":"Error!",
+                "data":"Only CSV files allowed"
+            }
+            return res, 400
+
         data = CustomData(f).arr
         prediction = PredictPipeline().predict(data)
         res={
