@@ -175,7 +175,7 @@ def predict():
         res = {
             "status": False,
             "message": "Error!",
-            "data": 'File size exceeds 1 MB'
+            "data": 'File size exceeds 5 MB'
         }
         return res, 413
     except Exception as e:
