@@ -15,7 +15,7 @@ application = Flask(__name__)
 
 app = application
 
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 # 1 MB
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 # 5 MB
 
 
 @app.errorhandler(CustomException)
@@ -134,7 +134,7 @@ def train():
         res = {
             "status": False,
             "message": "Error!",
-            "data": 'File size exceeds 1 MB'
+            "data": 'File size exceeds 5 MB'
         }
         return res, 413
     except Exception as e:
