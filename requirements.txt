@@ -1,8 +1,5 @@
 numpy
 pandas
-# python-dotenv
 scikit-learn
 Flask
-# mysql-connector-python
-# pymsql
 -e .

@@ -25,3 +25,5 @@ setup(
     packages=find_packages(),
     install_requires=get_requirements('requirements.txt')
 )
+
+# run 'pip install -r requirements.txt' to install packages listed in requirements.txt
