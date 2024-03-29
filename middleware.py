@@ -19,7 +19,7 @@ def auth(view_func):
 
         # define dummy fucntion which checks for token fom backend and return user object
         try:
-            if token != 'user':
+            if token != 'toA72nrlQAHlBU7':
                 res={
                     "status":False,
                     "message":"Error",
