@@ -28,7 +28,7 @@ class DataTransformation:
             train_df=pd.read_csv(train_path)
             test_df=pd.read_csv(test_path)
 
-            logging.info("Reading the train and test file")
+            # logging.info("Reading the train and test file")
 
             # Create datetime, year, and day columns from the 'Date' column
             train_df['date']=pd.to_datetime(train_df['Date'], format = '%Y-%m-%d')
@@ -46,7 +46,7 @@ class DataTransformation:
             target_feature_test_df=test_df['INR']
             test_df=test_df.drop(columns=['INR','Date','date'],axis=1)
 
-            logging.info("Applying Preprocessing on training and test dataframe")
+            # logging.info("Applying Preprocessing on training and test dataframe")
 
             # Combine features and target feature back into NumPy arrays
             train_arr = np.c_[train_df,np.array(target_feature_train_df)]

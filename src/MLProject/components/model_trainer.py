@@ -43,7 +43,7 @@ class ModelTrainer:
             CustomException: If an error occurs during training or evaluation.
         """
         try:
-            logging.info("Split train and test input data")
+            # logging.info("Split train and test input data")
 
             # Separate features and target values from training and testing data
             X_train,y_train,X_test,y_test=(
@@ -84,7 +84,7 @@ class ModelTrainer:
             # Make predictions on the test data using the best model
             best_model = models[best_model_name]
 
-            logging.info("Best model found")
+            # logging.info("Best model found")
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
